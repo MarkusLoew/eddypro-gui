@@ -32,6 +32,7 @@
 #include <QDebug>
 #include <QMouseEvent>
 #include <QPainter>
+#include <QPainterPath>
 #include <QPen>
 #include <QScrollBar>
 #include <QToolTip>

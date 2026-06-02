@@ -17,11 +17,8 @@ CONFIG(debug, debug|release) {
         QMAKE_POST_LINK += $$_PRO_FILE_PWD_/scripts/build/mac-post-link.sh debug
     }
     linux {
-        # quazip
-        LIBS += -L$$OUT_PWD/../../libs/centos/build-quazip-0.7.3-qt-5.10.1-centos-gcc-4.8.5-x86_64/quazip -lquazip_debug
-
-        # linking
-        QMAKE_PRE_LINK += $$_PRO_FILE_PWD_/scripts/build/lin-pre-link.sh debug
+        # quazip (system install)
+        LIBS += -lquazip5
     }
 } else {
     win32 {
@@ -39,10 +36,7 @@ CONFIG(debug, debug|release) {
         QMAKE_POST_LINK += $$_PRO_FILE_PWD_/scripts/build/mac-post-link.sh release
     }
     linux {
-        # quazip
-        LIBS += -L$$OUT_PWD/../../libs/centos/build-quazip-0.7.3-qt-5.10.1-centos-gcc-4.8.5-x86_64/quazip -lquazip
-
-        # linking
-        QMAKE_PRE_LINK += $$_PRO_FILE_PWD_/scripts/build/lin-pre-link.sh release
+        # quazip (system install)
+        LIBS += -lquazip5
     }
 }
