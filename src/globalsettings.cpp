@@ -91,7 +91,7 @@ void GlobalSettings::getCustomVariableList(QStringList* varList)
                                  Defs::CONF_PROJ_CUSTOM_VARS,
                                  QString()).toString();
 
-    *varList = stringValue.split(QLatin1Char(','), QString::SkipEmptyParts);
+    *varList = stringValue.split(QLatin1Char(','), Qt::SkipEmptyParts);
 }
 
 void GlobalSettings::setCustomVariableList(const QStringList& varList)

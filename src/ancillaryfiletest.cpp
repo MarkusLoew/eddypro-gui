@@ -221,11 +221,11 @@ bool AncillaryFileTest::parseFile(const QString& filename, LineList *lines)
     if (line.isNull()) { return false; }
 
     const auto space = QLatin1Char(' ');
-    *lines << line.split(space, QString::SkipEmptyParts);
+    *lines << line.split(space, Qt::SkipEmptyParts);
     while (!line.isNull())
     {
         line = in.readLine();
-        *lines << line.split(space, QString::SkipEmptyParts);
+        *lines << line.split(space, Qt::SkipEmptyParts);
     }
 
     file.close();

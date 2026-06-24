@@ -69,6 +69,39 @@ GCC 11 is stricter about transitive includes. Add `#include <QPainterPath>` to:
 
 In both files, insert it after the existing `#include <QPainter>` line.
 
+### 4d. Deprecated `QString::SkipEmptyParts`
+
+Replace all occurrences of the deprecated `QString::SkipEmptyParts` with
+`Qt::SkipEmptyParts` in:
+
+- `src/globalsettings.cpp`
+- `src/ancillaryfiletest.cpp`
+
+### 4e. Crash when opening a project file (`updateFourthGasSettings`)
+
+The application crashes with a segfault when opening an existing `.eddypro` file.
+The root cause is a static initialisation order fiasco: `QStringLiteral` macros
+and `Defs::SUBTWO`/`Defs::SUBTHREE` constants in `src/basicsettingspage.cpp` are
+used inside `BasicSettingsPage::updateFourthGasSettings()`, which is triggered
+early during startup before those static objects are initialised.
+
+In `src/basicsettingspage.cpp`, replace the string constant block near the top of
+`updateFourthGasSettings()` with runtime-constructed strings:
+
+```cpp
+// Use runtime string construction to avoid static initialisation order issues
+const QChar subTwo(0x2082);
+const QChar subThree(0x2083);
+const QString N2OStr = QString(QLatin1Char('N')) + subTwo + QLatin1Char('O');
+const QString COStr = QString::fromLatin1("CO");
+const QString SO2Str = QString::fromLatin1("SO") + subTwo;
+const QString O3Str = QString(QLatin1Char('O')) + subThree;
+const QString NH3Str = QString::fromLatin1("NH") + subThree;
+const QString NOStr = QString::fromLatin1("NO");
+const QString NO2Str = QString::fromLatin1("NO") + subTwo;
+```
+These changes are implemented in the current version.
+
 ## 5. Build
 
 ```bash

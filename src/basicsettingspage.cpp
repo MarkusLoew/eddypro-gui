@@ -3067,13 +3067,22 @@ void BasicSettingsPage::updateFourthGasSettings(const QString& s)
         return;
     }
 
-    const auto N2OStr = QLatin1Char('N') + Defs::SUBTWO + QLatin1Char('O');
-    const auto COStr = QStringLiteral("CO");
-    const auto SO2Str = QStringLiteral("SO") + Defs::SUBTWO;
-    const auto O3Str = QLatin1Char('O') + Defs::SUBTHREE;
-    const auto NH3Str = QStringLiteral("NH") + Defs::SUBTHREE;
-    const auto NOStr = QStringLiteral("NO");
-    const auto NO2Str = QStringLiteral("NO") + Defs::SUBTWO;
+    // Guard against being called before widgets are fully initialised
+    if (!gasMw || !gasDiff)
+    {
+        return;
+    }
+
+    // Use runtime string construction to avoid static initialisation order issues
+    const QChar subTwo(0x2082);
+    const QChar subThree(0x2083);
+    const QString N2OStr = QString(QLatin1Char('N')) + subTwo + QLatin1Char('O');
+    const QString COStr = QString::fromLatin1("CO");
+    const QString SO2Str = QString::fromLatin1("SO") + subTwo;
+    const QString O3Str = QString(QLatin1Char('O')) + subThree;
+    const QString NH3Str = QString::fromLatin1("NH") + subThree;
+    const QString NOStr = QString::fromLatin1("NO");
+    const QString NO2Str = QString::fromLatin1("NO") + subTwo;
 
     QString gasStr(s.split(QLatin1Char(' ')).first());
 
